@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager2.adapter.FragmentViewHolder;
 
 import java.util.ArrayList;
 
@@ -48,18 +47,29 @@ public class CustomAdapter extends ArrayAdapter<Planet> {
 
             //Finding Views
             customViewHolder.planetName = (TextView) convertView.findViewById(R.id.planetName);
-            customViewHolder.moonNumber = (TextView) convertView.findViewById(R.id.moonsNumber);
+            customViewHolder.moonCount = (TextView) convertView.findViewById(R.id.moonsNumber);
             customViewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
 
             result = convertView;
+
+            convertView.setTag(customViewHolder);
+        } else {
+            //The view is recycled
+            customViewHolder = (CustomViewHolder) convertView.getTag();
+            result = convertView;
         }
-        //        return super.getView(position, convertView, parent);
+
+        customViewHolder.planetName.setText(planet.getPlanetName());
+        customViewHolder.moonCount.setText(planet.getMoonCount());
+        customViewHolder.imageView.setImageResource(planet.getPlanetImage());
+
+        return result;
     }
 
     private static class CustomViewHolder {
         //Holds references to the views within an item layout
         ImageView imageView;
-        TextView planetName, moonNumber;
+        TextView planetName, moonCount;
 
     }
 }
